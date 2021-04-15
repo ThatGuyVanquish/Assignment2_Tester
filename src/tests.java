@@ -1,78 +1,11 @@
-import java.util.Scanner;
 
 public class tests {
+
+    private static final Stack wrongPointers= new Stack(); // So far only used to test for wrong parent pointers
 
     public static void main(String[] args) {
         testBST();
     }
-
-    public static void test_Array_search(){
-
-    }
-    public static void test_Array_Delete(){
-
-    }
-    public static void test_Array_Minimum(){
-
-    }
-    public static void test_Array_Maximum(){
-
-    }
-    public static void test_Array_Successor(){
-
-    }
-    public static void test_Array_Predecessor(){
-
-    }
-    public static void test_Array_Backtrack(){
-
-    }
-    public static void test_SortedArray_search(){
-
-    }
-    public static void test_SortedArray_Delete(){
-
-    }
-    public static void test_SortedArray_Minimum(){
-
-    }
-    public static void test_SortedArray_Maximum(){
-
-    }
-    public static void test_SortedArray_Successor(){
-
-    }
-    public static void test_SortedArray_Predecessor(){
-
-    }
-    public static void test_SortedArray_Backtrack(){
-
-    }
-    public static void test_BST_search(){
-
-    }
-    public static void test_BST_Delete(){
-
-    }
-    public static void test_BST_Minimum(){
-
-    }
-    public static void test_BST_Maximum(){
-
-    }
-    public static void test_BST_Successor(){
-
-    }
-    public static void test_BST_Predecessor(){
-
-    }
-    public static void test_BST_Backtrack(){
-
-    }
-    public static void test_BST_Retrack(){
-
-    }
-
 
     public static void testBST(){
         BacktrackingBST tree = new BacktrackingBST(new Stack(), new Stack());
@@ -234,12 +167,14 @@ public class tests {
             System.out.println("problem with backtracking: delete(8)");
         }
         kavim();
+        correctParent(tree.getRoot());
+        kavim();
 
     }
     public static void kavim(){
         System.out.println("-----------------------------------------------");
     }
-    public static boolean isEquals(BacktrackingBST b,String p,String i){// get tree and it supposed PreOrder and InOrder scans, return true if it fits
+    public static boolean isEquals(BacktrackingBST b,String p,String i){
         if(!PreOrder(b.getRoot()).strip().equals(p)){
             System.out.println("problem with PreOrder tree");
             System.out.println(PreOrder(b.getRoot()).strip());
@@ -270,5 +205,23 @@ public class tests {
             tree += InOrder(node.right);
         }
         return tree;
+    }
+
+    private static void correctParent(BacktrackingBST.Node root) {
+        if (root.left != null) correctParent(root.left, root);
+        if (root.right != null) correctParent(root.right, root);
+        if (wrongPointers.isEmpty()) System.out.println("passed");
+        else {
+            while (!wrongPointers.isEmpty())
+                System.out.println(wrongPointers.pop());
+        }
+    }
+    private static void correctParent(BacktrackingBST.Node node,BacktrackingBST.Node nodesParent) {
+        if (node.getParent() != null && node.getParent() != nodesParent) {
+            wrongPointers.push("Node " + node.getKey() + "'s parent is not " + nodesParent.getKey());
+            kavim();
+        }
+        if (node.left != null) correctParent(node.left, node);
+        if (node.right != null) correctParent(node.right, node);
     }
 }
