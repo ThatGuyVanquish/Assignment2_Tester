@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class tests {
 
+    private static final Stack wrongPointers= new Stack(); // So far only used to test for wrong parent pointers
     public static void main(String[] args) {
         testBST();
     }
@@ -339,12 +340,12 @@ public class tests {
                 System.out.println(wrongPointers.pop());
         }
     }
-    private static void correctParent(BacktrackingBST.Node node,BacktrackingBST.Node nodesParent) {
-        if (node.getParent() != null && node.getParent() != nodesParent) {
+   private static void correctParent(BacktrackingBST.Node node,BacktrackingBST.Node nodesParent) {
+       /* if (node.getParent() != null && node.getParent() != nodesParent) {
             wrongPointers.push("Node " + node.getKey() + "'s parent is not " + nodesParent.getKey());
             kavim();
         }
         if (node.left != null) correctParent(node.left, node);
-        if (node.right != null) correctParent(node.right, node);
+        if (node.right != null) correctParent(node.right, node);*/
     }
 }
