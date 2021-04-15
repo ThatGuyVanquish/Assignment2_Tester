@@ -133,16 +133,26 @@ public class tests {
 
     public static void testBST(){
         BacktrackingBST tree = new BacktrackingBST(new Stack(), new Stack());
-        tree.insert(new BacktrackingBST.Node(3, null));
-        tree.insert(new BacktrackingBST.Node(6, null));
-        tree.insert(new BacktrackingBST.Node(2, null));
-        tree.insert(new BacktrackingBST.Node(5, null));
-        tree.insert(new BacktrackingBST.Node(4, null));
-        tree.insert(new BacktrackingBST.Node(8, null));
-        tree.insert(new BacktrackingBST.Node(9, null));
-        tree.insert(new BacktrackingBST.Node(7, null));
-        tree.insert(new BacktrackingBST.Node(0, null));
-        tree.insert(new BacktrackingBST.Node(1, null));
+        BacktrackingBST.Node keyThree = new BacktrackingBST.Node(3, null);
+        BacktrackingBST.Node keySix = new BacktrackingBST.Node(6, null);
+        BacktrackingBST.Node keyTwo = new BacktrackingBST.Node(2, null);
+        BacktrackingBST.Node keyFive = new BacktrackingBST.Node(5, null);
+        BacktrackingBST.Node keyFour = new BacktrackingBST.Node(4, null);
+        BacktrackingBST.Node keyEight = new BacktrackingBST.Node(8, null);
+        BacktrackingBST.Node keyNine = new BacktrackingBST.Node(9, null);
+        BacktrackingBST.Node keySeven = new BacktrackingBST.Node(7, null);
+        BacktrackingBST.Node keyZero = new BacktrackingBST.Node(0, null);
+        BacktrackingBST.Node keyOne = new BacktrackingBST.Node(1, null);
+        tree.insert(keyThree);
+        tree.insert(keySix);
+        tree.insert(keyTwo);
+        tree.insert(keyFive);
+        tree.insert(keyFour);
+        tree.insert(keyEight);
+        tree.insert(keyNine);
+        tree.insert(keySeven);
+        tree.insert(keyZero);
+        tree.insert(keyOne);
 
         isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9");
         kavim();
