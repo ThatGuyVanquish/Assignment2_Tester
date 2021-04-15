@@ -5,9 +5,59 @@ public class tests {
     public static void main(String[] args) {
         testBST();
     }
+    public static void run_All_Tests(){
+        run_Array_Tests();
+        run_SortedArray_Tests();
+        run_BST_Tests();
+    }
+    public static void run_Array_Tests(){
 
-    public static void test_Array_search(){
+    }
+    public static void run_SortedArray_Tests(){
 
+    }
+    public static void run_BST_Tests(){
+
+    }
+    public static void test_Array_Insert(){
+        boolean passed = true;
+        BacktrackingArray array1 = new BacktrackingArray(new Stack(),17);
+        BacktrackingArray array2 = new BacktrackingArray(new Stack(),3);
+        BacktrackingArray array3 = new BacktrackingArray(new Stack(),0);
+        BacktrackingArray[] b = {array1,array2,array3};
+        int[] arr1 = {3,5,1,8,23,6,92,34,2,1};
+        int[] arr2 = {3,4,2};
+        int[] arr3 = {};
+        int[][] d = {arr1,arr2,arr3};
+        int size1 = 6,size2 = 3,size3 = 0;
+        int[] sizes = {size1,size2,size3};
+        for(int i = 0;i < b.length;i++){
+            InsertToArray(b[i],d[i],sizes[i]);
+            if(!isArrayEquals(b[i],d[i],sizes[i])){
+               passed = false;
+               System.out.print("failed in insertion to array ");
+               b[i].print();
+            }
+        }
+        if(passed) System.out.println("passed all tests");
+    }
+    private static boolean isArrayEquals(BacktrackingArray array,int[] arr, int size){
+        for(int i = 0;i < size;i++){
+            if(arr[i] != array.get(i)) return false;
+        }
+        return true;
+    }
+    private static void InsertToArray(BacktrackingArray array,int[] arr,int size){
+        for(int i = 0;i < size;i++){
+            array.insert(arr[i]);
+        }
+    }
+
+    public static void test_Array_Search(){
+        BacktrackingArray array1 = new BacktrackingArray(new Stack(),17);
+        BacktrackingArray array2 = new BacktrackingArray(new Stack(),3);
+        BacktrackingArray array3 = new BacktrackingArray(new Stack(),0);
+        int[] arr = {};
     }
     public static void test_Array_Delete(){
 
@@ -27,7 +77,10 @@ public class tests {
     public static void test_Array_Backtrack(){
 
     }
-    public static void test_SortedArray_search(){
+    public static void test_SortedArray_Insert(){
+
+    }
+    public static void test_SortedArray_Search(){
 
     }
     public static void test_SortedArray_Delete(){
@@ -48,7 +101,10 @@ public class tests {
     public static void test_SortedArray_Backtrack(){
 
     }
-    public static void test_BST_search(){
+    public static void test_BST_Insert(){
+
+    }
+    public static void test_BST_Search(){
 
     }
     public static void test_BST_Delete(){
