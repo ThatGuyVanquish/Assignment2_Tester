@@ -23,6 +23,9 @@ public class tests {
         //test_SortedArray_Successor();
         //test_SortedArray_Predecessor();
         //test_SortedArray_Backtrack();
+        test_BST_Insert();
+        test_BST_Search();
+        test_BST_Delete();
         //run_All_Tests();
         //run_Array_Tests();
         //run_SortedArray_Tests();
@@ -773,7 +776,7 @@ public class tests {
                 passed = false;
             }
             tree.delete(keyEight);
-            if (!isEquals(tree, "3 0 1 6 5 7 9", "0 1 3 5 6 7 9")) {
+            if (!isEquals(tree, "3 0 1 6 5 9 7", "0 1 3 5 6 7 9")) {
                 System.out.println("failed on delete(8), case of node deletion with two children, when successor has no children of it's own");
                 passed = false;
             }
