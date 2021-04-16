@@ -799,10 +799,248 @@ public class tests {
 
     }
     public static void test_BST_Successor(){
+        boolean passed = true;
+        BacktrackingBST tree = new BacktrackingBST(new Stack(), new Stack());
+        BacktrackingBST.Node keyThree = new BacktrackingBST.Node(3, null);
+        BacktrackingBST.Node keySix = new BacktrackingBST.Node(6, null);
+        BacktrackingBST.Node keyTwo = new BacktrackingBST.Node(2, null);
+        BacktrackingBST.Node keyFive = new BacktrackingBST.Node(5, null);
+        BacktrackingBST.Node keyFour = new BacktrackingBST.Node(4, null);
+        BacktrackingBST.Node keyEight = new BacktrackingBST.Node(8, null);
+        BacktrackingBST.Node keyNine = new BacktrackingBST.Node(9, null);
+        BacktrackingBST.Node keySeven = new BacktrackingBST.Node(7, null);
+        BacktrackingBST.Node keyZero = new BacktrackingBST.Node(0, null);
+        BacktrackingBST.Node keyOne = new BacktrackingBST.Node(1, null);
+        tree.insert(keyThree);
+        tree.insert(keySix);
+        tree.insert(keyTwo);
+        tree.insert(keyFive);
+        tree.insert(keyFour);
+        tree.insert(keyEight);
+        tree.insert(keyNine);
+        tree.insert(keySeven);
+        tree.insert(keyZero);
+        tree.insert(keyOne);
+        //Simple test to check each node has the correct successor in the tree
+        try { // successor of 0
+            BacktrackingBST.Node zerosSuccessor = tree.successor(keyZero);
+            if (zerosSuccessor != keyOne) {
+                passed = false;
+                System.out.println("Found a successor to 0 which is not 1. check inserts or successor methods. successor found is " + zerosSuccessor.getKey());
+            }
+            BacktrackingBST.Node onesSuccessor = tree.successor(keyOne);
+            if (onesSuccessor != keyTwo) {
+                passed = false;
+                System.out.println("Found a successor to 1 which is not 2. check inserts or successor methods. successor found is " + onesSuccessor.getKey());
+            }
+            BacktrackingBST.Node twosSuccessor = tree.successor(keyTwo);
+            if (twosSuccessor != keyThree) {
+                passed = false;
+                System.out.println("Found a successor to 2 which is not 3. check inserts or successor methods. successor found is " + twosSuccessor.getKey());
+            }
+            BacktrackingBST.Node threesSuccessor = tree.successor(keyThree);
+            if (threesSuccessor != keyFour) {
+                passed = false;
+                System.out.println("Found a successor to 3 which is not 4. check inserts or successor methods. successor found is " + threesSuccessor.getKey());
+            }
+            BacktrackingBST.Node foursSuccessor = tree.successor(keyFour);
+            if (foursSuccessor != keyFive) {
+                passed = false;
+                System.out.println("Found a successor to 4 which is not 5. check inserts or successor methods. successor found is " + foursSuccessor.getKey());
+            }
+            BacktrackingBST.Node fivesSuccessor = tree.successor(keyFive);
+            if (fivesSuccessor != keySix) {
+                passed = false;
+                System.out.println("Found a successor to 5 which is not 6. check inserts or successor methods. successor found is " + fivesSuccessor.getKey());
+            }
+            BacktrackingBST.Node sixsSuccessor = tree.successor(keySix);
+            if (sixsSuccessor != keySeven) {
+                passed = false;
+                System.out.println("Found a successor to 0 which is not 1. check inserts or successor methods. successor found is " + sixsSuccessor.getKey());
+            }
+            BacktrackingBST.Node sevensSuccessor = tree.successor(keySeven);
+            if (sevensSuccessor != keyEight) {
+                passed = false;
+                System.out.println("Found a successor to 7 which is not 8. check inserts or successor methods. successor found is " + sevensSuccessor.getKey());
+            }
+            BacktrackingBST.Node eightsSuccessor = tree.successor(keyEight);
+            if (eightsSuccessor != keyNine) {
+                passed = false;
+                System.out.println("Found a successor to 8 which is not 9. check inserts or successor methods. successor found is " + eightsSuccessor.getKey());
+            }
+        }
+        catch (Exception e) {
+            passed = false;
+            System.out.println("failed on successor, expected: no exception, got " + e.getMessage());
+        }
 
+        // deleting every single node starting with 1 and making sure successor changes successfully
+        tree.delete(keyOne);
+        BacktrackingBST.Node[] keyArr = {keyTwo, keyThree, keyFour, keyFive, keySix, keySeven, keyEight, keyNine};
+        try {
+            for (BacktrackingBST.Node currentKey: keyArr){
+                if (tree.successor(keyZero) != currentKey) {
+                    passed = false;
+                    System.out.println("Found a wrong successor after deleting a few nodes. Check successor/delete methods");
+                    break;
+                }
+                tree.delete(currentKey);
+            }
+        }
+        catch (Exception e) {
+            passed = false;
+            System.out.println("failed on successor, expected: no exception, got " + e.getMessage());
+        }
+        if(!isEquals(tree,"0","0")){
+            passed = false;
+            System.out.println("issue with deleting nodes");
+        }
+        boolean noSuccessor = false;
+        try { // getting exception for no successor for a node which is IN the tree
+            BacktrackingBST.Node shouldThrow = tree.successor(keyZero);
+            noSuccessor = false;
+        }
+        catch (Exception e) {
+            noSuccessor = true;
+        }
+        if (!noSuccessor) {
+            passed = false;
+            System.out.println("Failed to throw exception for no successor in the tree for a node which exists in the tree");
+        }
+        try { // getting successor for a node which is not in the tree
+            BacktrackingBST.Node shouldThrow = tree.successor(new BacktrackingBST.Node(132123, null));
+            noSuccessor = false;
+        }
+        catch (Exception e) {
+            if (noSuccessor) noSuccessor = true;
+        }
+        if (!noSuccessor) {
+            passed = false;
+            System.out.println("Failed to throw exception for searching for a successor to a node which is not in the tree");
+        }
+        if (passed) System.out.println("passed all tests");
     }
     public static void test_BST_Predecessor(){
+        boolean passed = true;
+        BacktrackingBST tree = new BacktrackingBST(new Stack(), new Stack());
+        BacktrackingBST.Node keyThree = new BacktrackingBST.Node(3, null);
+        BacktrackingBST.Node keySix = new BacktrackingBST.Node(6, null);
+        BacktrackingBST.Node keyTwo = new BacktrackingBST.Node(2, null);
+        BacktrackingBST.Node keyFive = new BacktrackingBST.Node(5, null);
+        BacktrackingBST.Node keyFour = new BacktrackingBST.Node(4, null);
+        BacktrackingBST.Node keyEight = new BacktrackingBST.Node(8, null);
+        BacktrackingBST.Node keyNine = new BacktrackingBST.Node(9, null);
+        BacktrackingBST.Node keySeven = new BacktrackingBST.Node(7, null);
+        BacktrackingBST.Node keyZero = new BacktrackingBST.Node(0, null);
+        BacktrackingBST.Node keyOne = new BacktrackingBST.Node(1, null);
+        tree.insert(keyThree);
+        tree.insert(keySix);
+        tree.insert(keyTwo);
+        tree.insert(keyFive);
+        tree.insert(keyFour);
+        tree.insert(keyEight);
+        tree.insert(keyNine);
+        tree.insert(keySeven);
+        tree.insert(keyZero);
+        tree.insert(keyOne);
+        //Simple test to check each node has the correct successor in the tree
+        try { // successor of 0
+            BacktrackingBST.Node ninesPre = tree.predecessor(keyNine);
+            if (ninesPre != keyEight) {
+                passed = false;
+                System.out.println("Found a predecessor to 9 which is not 8. check inserts or predecessor methods. predecessor found is " + ninesPre.getKey());
+            }
+            BacktrackingBST.Node eightsPre = tree.predecessor(keyEight);
+            if (eightsPre != keySeven) {
+                passed = false;
+                System.out.println("Found a predecessor to 1 which is not 2. check inserts or predecessor methods. predecessor found is " + eightsPre.getKey());
+            }
+            BacktrackingBST.Node sevensPre = tree.predecessor(keySeven);
+            if (sevensPre != keySix) {
+                passed = false;
+                System.out.println("Found a predecessor to 2 which is not 3. check inserts or predecessor methods. predecessor found is " + sevensPre.getKey());
+            }
+            BacktrackingBST.Node sixsPre = tree.predecessor(keySix);
+            if (sixsPre != keyFive) {
+                passed = false;
+                System.out.println("Found a predecessor to 3 which is not 4. check inserts or predecessor methods. predecessor found is " + sixsPre.getKey());
+            }
+            BacktrackingBST.Node fivesPre = tree.predecessor(keyFive);
+            if (fivesPre != keyFour) {
+                passed = false;
+                System.out.println("Found a predecessor to 4 which is not 5. check inserts or predecessor methods. predecessor found is " + fivesPre.getKey());
+            }
+            BacktrackingBST.Node foursPre = tree.predecessor(keyFour);
+            if (foursPre != keyThree) {
+                passed = false;
+                System.out.println("Found a predecessor to 5 which is not 6. check inserts or predecessor methods. predecessor found is " + foursPre.getKey());
+            }
+            BacktrackingBST.Node threesPre = tree.predecessor(keyThree);
+            if (threesPre != keyTwo) {
+                passed = false;
+                System.out.println("Found a predecessor to 0 which is not 1. check inserts or predecessor methods. predecessor found is " + threesPre.getKey());
+            }
+            BacktrackingBST.Node twosPre = tree.predecessor(keyTwo);
+            if (twosPre != keyOne) {
+                passed = false;
+                System.out.println("Found a predecessor to 7 which is not 8. check inserts or predecessor methods. predecessor found is " + twosPre.getKey());
+            }
+            BacktrackingBST.Node onesPre = tree.predecessor(keyOne);
+            if (onesPre != keyZero) {
+                passed = false;
+                System.out.println("Found a predecessor to 8 which is not 9. check inserts or predecessor methods. predecessor found is " + onesPre.getKey());
+            }
+        }
+        catch (Exception e) {
+            passed = false;
+            System.out.println("failed on predecessor, expected: no exception, got " + e.getMessage());
+        }
 
+        // deleting every single node starting with 8 and making sure predecessor changes successfully
+        tree.delete(keyEight);
+        BacktrackingBST.Node[] keyArr = {keySeven, keySix, keyFive, keyFour, keyThree, keyTwo, keyOne, keyZero};
+        try {
+            for (BacktrackingBST.Node currentKey: keyArr){
+                if (tree.predecessor(keyNine) != currentKey) {
+                    passed = false;
+                    System.out.println("Found a wrong predecessor after deleting a few nodes. Check predecessor/delete methods");
+                    break;
+                }
+                tree.delete(currentKey);
+            }
+        }
+        catch (Exception e) {
+            passed = false;
+            System.out.println("failed on predecessor, expected: no exception, got " + e.getMessage());
+        }
+        if(!isEquals(tree,"9","9")){
+            passed = false;
+            System.out.println("issue with deleting nodes");
+        }
+        boolean noPredecessor = false;
+        try { // getting exception for no successor for a node which is IN the tree
+            BacktrackingBST.Node shouldThrow = tree.predecessor(keyNine);
+            noPredecessor = false;
+        }
+        catch (Exception e) {
+            noPredecessor = true;
+        }
+        if (!noPredecessor) {
+            passed = false;
+            System.out.println("Failed to throw exception for no predecessor in the tree for a node which exists in the tree");
+        }
+        try { // getting successor for a node which is not in the tree
+            BacktrackingBST.Node shouldThrow = tree.predecessor(new BacktrackingBST.Node(132123, null));
+            noPredecessor = false;
+        }
+        catch (Exception e) {
+            if (noPredecessor) noPredecessor = true;
+        }
+        if (!noPredecessor) {
+            passed = false;
+            System.out.println("Failed to throw exception for searching for a predecessor to a node which is not in the tree");
+        }
+        if (passed) System.out.println("passed all tests");
     }
     public static void test_BST_Backtrack(){
 
