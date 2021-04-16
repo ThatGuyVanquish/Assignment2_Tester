@@ -670,13 +670,123 @@ public class tests {
         if (passed) System.out.println("passed all tests");
     }
     public static void test_BST_Insert(){
-
+        BacktrackingBST tree = new BacktrackingBST(new Stack(), new Stack());
+        tree.insert(new BacktrackingBST.Node(3, null));
+        tree.insert(new BacktrackingBST.Node(6, null));
+        tree.insert(new BacktrackingBST.Node(2, null));
+        tree.insert(new BacktrackingBST.Node(5, null));
+        tree.insert(new BacktrackingBST.Node(4, null));
+        tree.insert(new BacktrackingBST.Node(8, null));
+        tree.insert(new BacktrackingBST.Node(9, null));
+        tree.insert(new BacktrackingBST.Node(7, null));
+        tree.insert(new BacktrackingBST.Node(0, null));
+        tree.insert(new BacktrackingBST.Node(1, null));
+        if (!isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9"))
+            System.out.println("Bad insertion, wrong population of nodes in BST");
     }
     public static void test_BST_Search(){
-
+        BacktrackingBST tree = new BacktrackingBST(new Stack(), new Stack());
+        BacktrackingBST.Node[] nodes = {
+            new BacktrackingBST.Node(3, null),
+            new BacktrackingBST.Node(6, null),
+            new BacktrackingBST.Node(2, null),
+            new BacktrackingBST.Node(5, null),
+            new BacktrackingBST.Node(4, null),
+            new BacktrackingBST.Node(8, null),
+            new BacktrackingBST.Node(9, null),
+            new BacktrackingBST.Node(7, null),
+            new BacktrackingBST.Node(0, null),
+            new BacktrackingBST.Node(1, null)};
+        for (BacktrackingBST.Node node:nodes) tree.insert(node);
+        BacktrackingBST.Node notInTree = new BacktrackingBST.Node(50, null);
+        boolean passed = true;
+        for (BacktrackingBST.Node node: nodes) {
+            try {
+                if (tree.search(node.getKey()) == null)
+                    {
+                        System.out.println("failed in search, nodes not inserted to tree properly via insert method");
+                        passed = false;
+                    }
+            }
+            catch (Exception e) {
+                System.out.println("failed on search, expected: no exception, got " + e.getMessage());
+            }
+        }
+        try {
+            if (tree.search(notInTree.getKey()) != null) {
+                System.out.println("failed in search, got a pointer to a node that should not exist in the tree");
+                passed = false;
+            }
+        }
+        catch (Exception e) {
+            System.out.println("failed on search, exception thrown instead of returning null if node not found. expected: no exception, got " + e.getMessage());
+        }
+        /* Check for same node in memory, not necessarily needed therefore commented out
+        BacktrackingBST.Node differentFive = new BacktrackingBST.Node(5, "bad node");
+        if (specialSauce(differentFive, tree)) {
+            System.out.println("failed in search, got a pointer to a node of the same key but not the same node in memory");
+            passed = false
+        }*/
+        if (passed) System.out.println("passed all tests");
     }
-    public static void test_BST_Delete(){
 
+    private static boolean specialSauce(BacktrackingBST.Node node, BacktrackingBST tree) {
+        return (node == tree.search(node.getKey()));
+    }
+
+    public static void test_BST_Delete(){
+        boolean passed = true;
+        BacktrackingBST tree = new BacktrackingBST(new Stack(), new Stack());
+        BacktrackingBST.Node keyThree = new BacktrackingBST.Node(3, null);
+        BacktrackingBST.Node keySix = new BacktrackingBST.Node(6, null);
+        BacktrackingBST.Node keyTwo = new BacktrackingBST.Node(2, null);
+        BacktrackingBST.Node keyFive = new BacktrackingBST.Node(5, null);
+        BacktrackingBST.Node keyFour = new BacktrackingBST.Node(4, null);
+        BacktrackingBST.Node keyEight = new BacktrackingBST.Node(8, null);
+        BacktrackingBST.Node keyNine = new BacktrackingBST.Node(9, null);
+        BacktrackingBST.Node keySeven = new BacktrackingBST.Node(7, null);
+        BacktrackingBST.Node keyZero = new BacktrackingBST.Node(0, null);
+        BacktrackingBST.Node keyOne = new BacktrackingBST.Node(1, null);
+        tree.insert(keyThree);
+        tree.insert(keySix);
+        tree.insert(keyTwo);
+        tree.insert(keyFive);
+        tree.insert(keyFour);
+        tree.insert(keyEight);
+        tree.insert(keyNine);
+        tree.insert(keySeven);
+        tree.insert(keyZero);
+        tree.insert(keyOne);
+        try {
+            if (!isEquals(tree, "3 2 0 1 6 5 4 8 7 9", "0 1 2 3 4 5 6 7 8 9")) {
+                System.out.println("Bad insertion, wrong population of nodes in BST");
+                passed = false;
+            }
+            tree.delete(keyFour);
+            if (!isEquals(tree, "3 2 0 1 6 5 8 7 9", "0 1 2 3 5 6 7 8 9")) {
+                System.out.println("failed on delete(4), case of node deletion when node is a leaf");
+                passed = false;
+            }
+            tree.delete(keyTwo);
+            if (!isEquals(tree, "3 0 1 6 5 8 7 9", "0 1 3 5 6 7 8 9")) {
+                System.out.println("failed on delete(2), case of node deletion with a single child");
+                passed = false;
+            }
+            tree.delete(keyEight);
+            if (!isEquals(tree, "3 0 1 6 5 7 9", "0 1 3 5 6 7 9")) {
+                System.out.println("failed on delete(8), case of node deletion with two children, when successor has no children of it's own");
+                passed = false;
+            }
+            tree.delete(keySix);
+            if (!isEquals(tree, "3 0 1 7 5 9", "0 1 3 5 7 9")) {
+                System.out.println("failed on delete(6), case of node deletion with two children, when successor has a right child");
+                passed = false;
+            }
+        }
+        catch (Exception e) {
+            System.out.println("failed on delete, expected: no exception, got " + e.getMessage());
+        }
+        if (passed) System.out.println("passed all tests");
     }
     public static void test_BST_Minimum(){
 
