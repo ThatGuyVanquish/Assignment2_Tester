@@ -1,10 +1,16 @@
+import java.io.Console;
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class tests {
 
     private static final Stack wrongPointers= new Stack(); // So far only used to test for wrong parent pointers
     public static void main(String[] args) {
-        testBST();
+        test_Array_Insert();
+        test_Array_Search();
+        test_Array_Delete();
+        //testBST();
     }
     public static void run_All_Tests(){
         run_Array_Tests();
@@ -54,14 +60,81 @@ public class tests {
         }
     }
 
-    public static void test_Array_Search(){
-        BacktrackingArray array1 = new BacktrackingArray(new Stack(),17);
-        BacktrackingArray array2 = new BacktrackingArray(new Stack(),3);
-        BacktrackingArray array3 = new BacktrackingArray(new Stack(),0);
-        int[] arr = {};
+    public static void test_Array_Search() {
+        boolean passed = true;
+        BacktrackingArray array1 = new BacktrackingArray(new Stack(), 17);
+        BacktrackingArray array2 = new BacktrackingArray(new Stack(), 3);
+        BacktrackingArray array3 = new BacktrackingArray(new Stack(), 0);
+        BacktrackingArray[] b = {array1, array2, array3};
+        int[] arr1 = {3, 5, 1, 8, 23, 6, 92, 34, 2, 1};
+        int[] arr2 = {3, 4, 2};
+        int[] arr3 = {};
+        int[][] d = {arr1, arr2, arr3};
+        int size1 = 6, size2 = 3, size3 = 0;
+        int[][] inputs = {{5, 4, 8, 34}, {2, 6, 4}, {1}};
+        int[][] outputs = {{1, -1, 3, -1}, {2, -1, 1}, {-1}};
+        int[] sizes = {size1, size2, size3};
+        for (int i = 0; i < b.length; i++) {
+            InsertToArray(b[i], d[i], sizes[i]);
+            for (int j = 0; j < inputs[i].length; j++) {
+                if (b[i].search(inputs[i][j]) != outputs[i][j]) {
+                    passed = false;
+                    System.out.println("failed on search, expected: " + outputs[i][j] + " actual: " + b[i].search(inputs[i][j]));
+                }
+            }
+        }
+        if (passed) System.out.println("passed all tests");
+    }
+    private static boolean checkDelete(BacktrackingArray b,int[] arr,int size){
+        for(int i = 0;i< size;i++){
+            if(b.get(i) != arr[i]) return false;
+        }
+        return true;
     }
     public static void test_Array_Delete(){
-
+        boolean passed = true;
+        BacktrackingArray array1 = new BacktrackingArray(new Stack(), 17);
+        BacktrackingArray array2 = new BacktrackingArray(new Stack(), 3);
+        BacktrackingArray array3 = new BacktrackingArray(new Stack(), 0);
+        BacktrackingArray[] b = {array1, array2, array3};
+        int[] arr1 = {3, 5, 1, 8, 23, 6, 92, 34, 2, 1};
+        int[] arr2 = {3, 4, 2};
+        int[] arr3 = {};
+        int[][] d = {arr1, arr2, arr3};
+        int size1 = 6, size2 = 3, size3 = 0;
+        int[][] inputs = {{5, 4, -1, 34}, {2, 6, 4}, {0}};
+        int[] out1 = {3, 5, 1, 8, 23, 92, 34, 2, 1};
+        int[] out2 = {3, 5, 1, 8, 92, 34, 2, 1};
+        int[] out3 = {3, 4};
+        Object[][] outputs = {{out1, out2,-1, -1}, {out3, -1, -1}, {-1}};
+        int[] sizes = {size1, size2, size3};
+        for (int i = 0; i < b.length; i++) {
+            InsertToArray(b[i], d[i], sizes[i]);
+            for (int j = 0; j < inputs[i].length; j++) {
+                try {
+                    b[i].delete(inputs[i][j]);
+                    if(outputs[i][j].toString().equals("-1")){
+                        passed = false;
+                        System.out.print("failed on delete, expected to throw an exception, actual: ");
+                        b[i].print();
+                        System.out.println();
+                    }
+                    else if(!checkDelete(b[i],(int[])outputs[i][j],--sizes[i])){
+                        passed = false;
+                        System.out.print("failed on delete, expected: " + Arrays.toString((int[])outputs[i][j]) + " actual: ");
+                        b[i].print();
+                        System.out.println();
+                    }
+                }
+                catch (Exception e) {
+                    if (-1 != (int) outputs[i][j]) {
+                        passed = false;
+                        System.out.println("failed on delete, expected: " + Arrays.toString((int[])outputs[i][j]) + " actual: " + e.getMessage());
+                    }
+                }
+            }
+        }
+        if (passed) System.out.println("passed all tests");
     }
     public static void test_Array_Minimum(){
 
@@ -342,7 +415,7 @@ public class tests {
     }
     
     private static boolean correctInsert(BacktrackingBST.Node node, BacktrackingBST tree) {
-        if (node.getParent() == null && node != tree.getRoot()) {
+        /*if (node.getParent() == null && node != tree.getRoot()) {
             System.out.println("Node's parent field wasn't updated properly");
             return false;
         }
@@ -355,7 +428,7 @@ public class tests {
                 System.out.println("Wrong child pointer for " + node.getKey() + "'s parent left or right child, meaning node wasn't inserted properly");
             }
         }
-        System.out.println("passed");
+        System.out.println("passed");*/
         return true;
     }
     
