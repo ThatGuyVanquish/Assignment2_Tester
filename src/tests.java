@@ -7,9 +7,14 @@ public class tests {
 
     private static final Stack wrongPointers= new Stack(); // So far only used to test for wrong parent pointers
     public static void main(String[] args) {
-        test_Array_Insert();
-        test_Array_Search();
-        test_Array_Delete();
+        //test_Array_Insert();
+        //test_Array_Search();
+        //test_Array_Delete();
+        //test_Array_Minimum();
+        //test_Array_Maximum();
+        //test_Array_Successor();
+        //test_Array_Predecessor();
+        //test_Array_Backtrack();
         //testBST();
     }
     public static void run_All_Tests(){
@@ -18,7 +23,23 @@ public class tests {
         run_BST_Tests();
     }
     public static void run_Array_Tests(){
-
+        System.out.println("running array tests");
+        System.out.println("insert");
+        test_Array_Insert();
+        System.out.println("search");
+        test_Array_Search();
+        System.out.println("delete");
+        test_Array_Delete();
+        System.out.println("minimum");
+        test_Array_Minimum();
+        System.out.println("maximum");
+        test_Array_Maximum();
+        System.out.println("successor");
+        test_Array_Successor();
+        System.out.println("predecessor");
+        test_Array_Predecessor();
+        System.out.println("backtrack");
+        test_Array_Backtrack();
     }
     public static void run_SortedArray_Tests(){
 
@@ -32,7 +53,7 @@ public class tests {
         BacktrackingArray array2 = new BacktrackingArray(new Stack(),3);
         BacktrackingArray array3 = new BacktrackingArray(new Stack(),0);
         BacktrackingArray[] b = {array1,array2,array3};
-        int[] arr1 = {3,5,1,8,23,6,92,34,2,1};
+        int[] arr1 = {3,5,1,8,23,6,92,34,2,9};
         int[] arr2 = {3,4,2};
         int[] arr3 = {};
         int[][] d = {arr1,arr2,arr3};
@@ -66,7 +87,7 @@ public class tests {
         BacktrackingArray array2 = new BacktrackingArray(new Stack(), 3);
         BacktrackingArray array3 = new BacktrackingArray(new Stack(), 0);
         BacktrackingArray[] b = {array1, array2, array3};
-        int[] arr1 = {3, 5, 1, 8, 23, 6, 92, 34, 2, 1};
+        int[] arr1 = {3, 5, 1, 8, 23, 6, 92, 34, 2, 9};
         int[] arr2 = {3, 4, 2};
         int[] arr3 = {};
         int[][] d = {arr1, arr2, arr3};
@@ -97,14 +118,14 @@ public class tests {
         BacktrackingArray array2 = new BacktrackingArray(new Stack(), 3);
         BacktrackingArray array3 = new BacktrackingArray(new Stack(), 0);
         BacktrackingArray[] b = {array1, array2, array3};
-        int[] arr1 = {3, 5, 1, 8, 23, 6, 92, 34, 2, 1};
+        int[] arr1 = {3, 5, 1, 8, 23, 6, 92, 34, 2, 9};
         int[] arr2 = {3, 4, 2};
         int[] arr3 = {};
         int[][] d = {arr1, arr2, arr3};
         int size1 = 6, size2 = 3, size3 = 0;
         int[][] inputs = {{5, 4, -1, 34}, {2, 6, 4}, {0}};
-        int[] out1 = {3, 5, 1, 8, 23, 92, 34, 2, 1};
-        int[] out2 = {3, 5, 1, 8, 92, 34, 2, 1};
+        int[] out1 = {3, 5, 1, 8, 23};
+        int[] out2 = {3, 5, 1, 8};
         int[] out3 = {3, 4};
         Object[][] outputs = {{out1, out2,-1, -1}, {out3, -1, -1}, {-1}};
         int[] sizes = {size1, size2, size3};
@@ -137,19 +158,197 @@ public class tests {
         if (passed) System.out.println("passed all tests");
     }
     public static void test_Array_Minimum(){
-
+        boolean passed = true;
+        BacktrackingArray array1 = new BacktrackingArray(new Stack(), 17);
+        BacktrackingArray array2 = new BacktrackingArray(new Stack(), 3);
+        BacktrackingArray array3 = new BacktrackingArray(new Stack(), 0);
+        BacktrackingArray[] b = {array1, array2, array3};
+        int[] arr1 = {3, 5, 1, 8, 23, 6, 92, 34, 2, 9};
+        int[] arr2 = {3, 4, 2};
+        int[] arr3 = {};
+        int[][] d = {arr1, arr2, arr3};
+        int size1 = 6, size2 = 3, size3 = 0;
+        int[] outputs = {2,2,-1};
+        int[] sizes = {size1, size2, size3};
+        for (int i = 0; i < b.length; i++) {
+            InsertToArray(b[i], d[i], sizes[i]);
+            try {
+                if(b[i].minimum() != outputs[i]){
+                    passed = false;
+                    if(outputs[i] == -1){
+                        System.out.println("failed on minimum, expected to throw an exception, actual: " + b[i].minimum());
+                    }
+                    else {
+                        System.out.println("failed on minimum, expected: " + outputs[i] + " actual: " + b[i].minimum());
+                    }
+                }
+            }
+            catch (Exception e){
+                if(outputs[i] != -1) {
+                    passed = false;
+                    System.out.println("failed on minimum expected: " + outputs[i] + " actual: "+ e.getMessage());
+                }
+            }
+        }
+        if (passed) System.out.println("passed all tests");
     }
     public static void test_Array_Maximum(){
-
+        boolean passed = true;
+        BacktrackingArray array1 = new BacktrackingArray(new Stack(), 17);
+        BacktrackingArray array2 = new BacktrackingArray(new Stack(), 3);
+        BacktrackingArray array3 = new BacktrackingArray(new Stack(), 0);
+        BacktrackingArray[] b = {array1, array2, array3};
+        int[] arr1 = {3, 5, 1, 8, 23, 6, 92, 34, 2, 9};
+        int[] arr2 = {3, 4, 2};
+        int[] arr3 = {};
+        int[][] d = {arr1, arr2, arr3};
+        int size1 = 6, size2 = 3, size3 = 0;
+        int[] outputs = {4,1,-1};
+        int[] sizes = {size1, size2, size3};
+        for (int i = 0; i < b.length; i++) {
+            InsertToArray(b[i], d[i], sizes[i]);
+            try {
+                if(b[i].maximum() != outputs[i]){
+                    passed = false;
+                    if(outputs[i] == -1){
+                        System.out.println("failed on maximum, expected to throw an exception, actual: " + b[i].maximum());
+                    }
+                    else {
+                        System.out.println("failed on maximum, expected: " + outputs[i] + " actual: " + b[i].maximum());
+                    }
+                }
+            }
+            catch (Exception e){
+                if(outputs[i] != -1) {
+                    passed = false;
+                    System.out.println("failed on maximum expected: " + outputs[i] + " actual: "+ e.getMessage());
+                }
+            }
+        }
+        if (passed) System.out.println("passed all tests");
     }
     public static void test_Array_Successor(){
-
+        boolean passed = true;
+        BacktrackingArray array1 = new BacktrackingArray(new Stack(), 17);
+        BacktrackingArray array2 = new BacktrackingArray(new Stack(), 3);
+        BacktrackingArray array3 = new BacktrackingArray(new Stack(), 0);
+        BacktrackingArray[] b = {array1, array2, array3};
+        int[] arr1 = {3, 5, 1, 8, 23, 6, 92, 34, 2, 9};
+        int[] arr2 = {3, 4, 2};
+        int[] arr3 = {};
+        int[][] d = {arr1, arr2, arr3};
+        int size1 = 6, size2 = 3, size3 = 0;
+        int[] inputs = {4,0,0};
+        int[] outputs = {-1,1,-1};
+        int[] sizes = {size1, size2, size3};
+        for (int i = 0; i < b.length; i++) {
+            InsertToArray(b[i], d[i], sizes[i]);
+            try {
+                if(b[i].successor(inputs[i]) != outputs[i]){
+                    passed = false;
+                    if(outputs[i] == -1){
+                        System.out.println("failed on successor, expected to throw an exception, actual: " + b[i].successor(inputs[i]));
+                    }
+                    else {
+                        System.out.println("failed on successor, expected: " + outputs[i] + " actual: " + b[i].successor(inputs[i]));
+                    }
+                }
+            }
+            catch (Exception e){
+                if(outputs[i] != -1) {
+                    passed = false;
+                    System.out.println("failed on successor, expected: " + outputs[i] + " actual: "+ e.getMessage());
+                }
+            }
+        }
+        if (passed) System.out.println("passed all tests");
     }
     public static void test_Array_Predecessor(){
-
+        boolean passed = true;
+        BacktrackingArray array1 = new BacktrackingArray(new Stack(), 17);
+        BacktrackingArray array2 = new BacktrackingArray(new Stack(), 3);
+        BacktrackingArray array3 = new BacktrackingArray(new Stack(), 0);
+        BacktrackingArray[] b = {array1, array2, array3};
+        int[] arr1 = {3, 5, 1, 8, 23, 6, 92, 34, 2, 9};
+        int[] arr2 = {3, 4, 2};
+        int[] arr3 = {};
+        int[][] d = {arr1, arr2, arr3};
+        int size1 = 6, size2 = 3, size3 = 0;
+        int[] inputs = {2,0,0};
+        int[] outputs = {-1,2,-1};
+        int[] sizes = {size1, size2, size3};
+        for (int i = 0; i < b.length; i++) {
+            InsertToArray(b[i], d[i], sizes[i]);
+            try {
+                if(b[i].predecessor(inputs[i]) != outputs[i]){
+                    passed = false;
+                    if(outputs[i] == -1){
+                        System.out.println("failed on predecessor, expected to throw an exception, actual: " + b[i].predecessor(inputs[i]));
+                    }
+                    else {
+                        System.out.println("failed on predecessor, expected: " + outputs[i] + " actual: " + b[i].predecessor(inputs[i]));
+                    }
+                }
+            }
+            catch (Exception e){
+                if(outputs[i] != -1) {
+                    passed = false;
+                    System.out.println("failed on predecessor, expected: " + outputs[i] + " actual: "+ e.getMessage());
+                }
+            }
+        }
+        if (passed) System.out.println("passed all tests");
     }
     public static void test_Array_Backtrack(){
-
+        boolean passed = true;
+        BacktrackingArray array1 = new BacktrackingArray(new Stack(), 17);
+        BacktrackingArray array2 = new BacktrackingArray(new Stack(), 3);
+        BacktrackingArray array3 = new BacktrackingArray(new Stack(), 0);
+        BacktrackingArray[] b = {array1, array2, array3};
+        int[] arr1 = {3, 5, 1, 8, 23,6};
+        int[] arr2 = {3, 4, 2};
+        int[] arr3 = {};
+        int[][] d = {arr1, arr2, arr3};
+        int size1 = 6, size2 = 3, size3 = 0;
+        int[][] inputs = {{1,0}, {1}, {}};
+        int[] sizes = {size1, size2, size3};
+        for (int i = 0; i < b.length; i++) {
+            InsertToArray(b[i], d[i], sizes[i]);
+            for (int j = 0; j < inputs[i].length; j++) {
+                try {
+                    if(inputs[i][j] == 1) {
+                        b[i].delete(inputs[i][j]);
+                        b[i].backtrack();
+                        if(!isArrayEquals(b[i],d[i],sizes[i])){
+                            passed = false;
+                            System.out.print("failed in backtrack(Delete), expected: " + Arrays.toString(d[i]) + " actual: ");
+                            b[i].print();
+                            System.out.println();
+                        }
+                    }
+                    else{
+                        b[i].insert(inputs[i][j]);
+                        b[i].backtrack();
+                        if(!isArrayEquals(b[i],d[i],sizes[i])) {
+                            passed = false;
+                            System.out.print("failed in backtrack(Insert), expected: " + Arrays.toString(d[i]) + " actual: ");
+                            b[i].print();
+                            System.out.println();
+                        }
+                    }
+                }
+                catch (Exception e) {
+                    passed = false;
+                    if(inputs[i][j] == 1) {
+                        System.out.println("failed on delete, expected: no exception, " + "actual: " + e.getMessage());
+                    }
+                    else{
+                        System.out.println("failed on insert, expected: no exception, " + "actual: " + e.getMessage());
+                    }
+                }
+            }
+        }
+        if (passed) System.out.println("passed all tests");
     }
     public static void test_SortedArray_Insert(){
 
