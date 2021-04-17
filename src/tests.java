@@ -1714,24 +1714,6 @@ public class tests {
         return tree;
     }
 
-    private static boolean correctInsert(BacktrackingBST.Node node, BacktrackingBST tree) {
-        /*if (node.getParent() == null && node != tree.getRoot()) {
-            System.out.println("Node's parent field wasn't updated properly");
-            return false;
-        }
-        if (node.getParent() != null) {
-            BacktrackingBST.Node currentNode = tree.search(node.getParent().getKey());
-            if (currentNode == null) {
-                System.out.println("Wrong pointer for " + node.getKey() + "'s parent (I.E. It's not in the tree, check parent pointer change is correct");
-                return false;
-            } else if (currentNode.left != node && currentNode.right != node) {
-                System.out.println("Wrong child pointer for " + node.getKey() + "'s parent left or right child, meaning node wasn't inserted properly");
-            }
-        }
-        System.out.println("passed");*/
-        return true;
-    }
-
     private static void correctParent(BacktrackingBST.Node root) {
         if (root.left != null) correctParent(root.left, root);
         if (root.right != null) correctParent(root.right, root);
