@@ -23,9 +23,9 @@ public class tests {
         //test_SortedArray_Successor();
         //test_SortedArray_Predecessor();
         //test_SortedArray_Backtrack();
-        test_BST_Insert();
-        test_BST_Search();
-        test_BST_Delete();
+        //test_BST_Insert();
+        //test_BST_Search();
+        //test_BST_Delete();
         //run_All_Tests();
         //run_Array_Tests();
         //run_SortedArray_Tests();
@@ -780,7 +780,7 @@ public class tests {
                 System.out.println("failed on delete(8), case of node deletion with two children, when successor has no children of it's own");
                 passed = false;
             }
-            tree.insert(new BacktrackingBST.Node(8,null)); // forcing 7 successor of 6 to have 1 child
+            tree.insert(new BacktrackingBST.Node(8, null)); // forcing 7 successor of 6 to have 1 child
             tree.delete(keySix);
             if (!isEquals(tree, "3 0 1 7 5 9 8", "0 1 3 5 7 8 9")) {
                 System.out.println("failed on delete(6), case of node deletion with two children, when successor has a right child");
