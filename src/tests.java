@@ -780,7 +780,7 @@ public class tests {
                 System.out.println("failed on delete(8), case of node deletion with two children, when successor has no children of it's own");
                 passed = false;
             }
-            tree.insert(keyEight); // forcing 7 successor of 6 to have 1 child
+            tree.insert(new BacktrackingBST.Node(8, null)); // forcing 7 successor of 6 to have 1 child
             tree.delete(keySix);
             if (!isEquals(tree, "3 0 1 7 5 9 8", "0 1 3 5 7 8 9")) {
                 System.out.println("failed on delete(6), case of node deletion with two children, when successor has a right child");
@@ -790,14 +790,122 @@ public class tests {
         catch (Exception e) {
             System.out.println("failed on delete, expected: no exception, got " + e.getMessage());
         }
+        boolean deleteException = true;
+        try{
+            tree.delete(new BacktrackingBST.Node(123123, null));
+            deleteException = false;
+        }
+        catch (Exception ignored) {
+        }
+        if (!deleteException) {
+            passed = false;
+            System.out.println("failed on delete, expected to throw exception when deleting a node not in the tree, did not throw exception");
+        }
         if (passed) System.out.println("passed all tests");
     }
+
     public static void test_BST_Minimum(){
-
+        boolean passed = true;
+        BacktrackingBST tree = new BacktrackingBST(new Stack(), new Stack());
+        BacktrackingBST.Node keyThree = new BacktrackingBST.Node(3, null);
+        BacktrackingBST.Node keySix = new BacktrackingBST.Node(6, null);
+        BacktrackingBST.Node keyTwo = new BacktrackingBST.Node(2, null);
+        BacktrackingBST.Node keyFive = new BacktrackingBST.Node(5, null);
+        BacktrackingBST.Node keyFour = new BacktrackingBST.Node(4, null);
+        BacktrackingBST.Node keyEight = new BacktrackingBST.Node(8, null);
+        BacktrackingBST.Node keyNine = new BacktrackingBST.Node(9, null);
+        BacktrackingBST.Node keySeven = new BacktrackingBST.Node(7, null);
+        BacktrackingBST.Node keyZero = new BacktrackingBST.Node(0, null);
+        BacktrackingBST.Node keyOne = new BacktrackingBST.Node(1, null);
+        tree.insert(keyThree);
+        tree.insert(keySix);
+        tree.insert(keyTwo);
+        tree.insert(keyFive);
+        tree.insert(keyFour);
+        tree.insert(keyEight);
+        tree.insert(keyNine);
+        tree.insert(keySeven);
+        tree.insert(keyZero);
+        tree.insert(keyOne);
+        try {
+            BacktrackingBST.Node min = tree.minimum();
+            if (min != keyZero) {
+                passed = false;
+                if (tree.search(0) == null) System.out.println("failed in minimum by insertion. inserting node with key 0 failed");
+                else System.out.println("failed on minimum, found wrong node for minimum. min node found is " + min.getKey());
+            }
+        }
+        catch (Exception e) {
+            passed = false;
+            System.out.println("failed on minimum, expected: no exception, got " + e.getMessage());
+        }
+        BacktrackingBST tree2 = new BacktrackingBST(new Stack(), new Stack());
+        boolean hasNoMin = true;
+        try {
+            BacktrackingBST.Node min = tree2.minimum();
+            hasNoMin = false;
+        }
+        catch (Exception ignored) {
+        }
+        if (!hasNoMin) {
+            passed = false;
+            if (tree2.minimum() == null) System.out.println("failed on minimum, returned null instead of throwing exception");
+            else System.out.println("failed on minimum, returned a node as minimum for an empty tree");
+        }
+        if (passed) System.out.println("passed all tests");
     }
+
     public static void test_BST_Maximum(){
-
+        boolean passed = true;
+        BacktrackingBST tree = new BacktrackingBST(new Stack(), new Stack());
+        BacktrackingBST.Node keyThree = new BacktrackingBST.Node(3, null);
+        BacktrackingBST.Node keySix = new BacktrackingBST.Node(6, null);
+        BacktrackingBST.Node keyTwo = new BacktrackingBST.Node(2, null);
+        BacktrackingBST.Node keyFive = new BacktrackingBST.Node(5, null);
+        BacktrackingBST.Node keyFour = new BacktrackingBST.Node(4, null);
+        BacktrackingBST.Node keyEight = new BacktrackingBST.Node(8, null);
+        BacktrackingBST.Node keyNine = new BacktrackingBST.Node(9, null);
+        BacktrackingBST.Node keySeven = new BacktrackingBST.Node(7, null);
+        BacktrackingBST.Node keyZero = new BacktrackingBST.Node(0, null);
+        BacktrackingBST.Node keyOne = new BacktrackingBST.Node(1, null);
+        tree.insert(keyThree);
+        tree.insert(keySix);
+        tree.insert(keyTwo);
+        tree.insert(keyFive);
+        tree.insert(keyFour);
+        tree.insert(keyEight);
+        tree.insert(keyNine);
+        tree.insert(keySeven);
+        tree.insert(keyZero);
+        tree.insert(keyOne);
+        try {
+            BacktrackingBST.Node max = tree.maximum();
+            if (max != keyNine) {
+                passed = false;
+                if (tree.search(0) == null) System.out.println("failed in minimum by insertion. inserting node with key 9 failed");
+                else System.out.println("failed on maximum, found wrong node for maximum. max node found is " + max.getKey());
+            }
+        }
+        catch (Exception e) {
+            passed = false;
+            System.out.println("failed on maximum, expected: no exception, got " + e.getMessage());
+        }
+        BacktrackingBST tree2 = new BacktrackingBST(new Stack(), new Stack());
+        boolean hasNoMax = true;
+        try {
+            BacktrackingBST.Node max = tree2.maximum();
+            hasNoMax = false;
+        }
+        catch (Exception ignored) {
+        }
+        if (!hasNoMax) {
+            passed = false;
+            if (tree2.minimum() == null) System.out.println("failed on maximum, returned null instead of throwing exception");
+            else System.out.println("failed on maximum, returned a node as maximum for an empty tree");
+        }
+        if (passed) System.out.println("passed all tests");
     }
+    
     public static void test_BST_Successor(){
 
     }
