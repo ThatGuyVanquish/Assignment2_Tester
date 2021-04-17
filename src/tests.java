@@ -1150,11 +1150,349 @@ public class tests {
         }
         if (passed) System.out.println("passed all tests");
     }
-    public static void test_BST_Backtrack(){
-
+    public static void test_BST_Backtrack() {
+        boolean passed = true;
+        BacktrackingBST tree = new BacktrackingBST(new Stack(), new Stack());
+        BacktrackingBST tree2 = new BacktrackingBST(new Stack(), new Stack());
+        BacktrackingBST.Node keyThree = new BacktrackingBST.Node(3, null);
+        BacktrackingBST.Node keySix = new BacktrackingBST.Node(6, null);
+        BacktrackingBST.Node keyTwo = new BacktrackingBST.Node(2, null);
+        BacktrackingBST.Node keyFive = new BacktrackingBST.Node(5, null);
+        BacktrackingBST.Node keyFour = new BacktrackingBST.Node(4, null);
+        BacktrackingBST.Node keyEight = new BacktrackingBST.Node(8, null);
+        BacktrackingBST.Node keyNine = new BacktrackingBST.Node(9, null);
+        BacktrackingBST.Node keySeven = new BacktrackingBST.Node(7, null);
+        BacktrackingBST.Node keyZero = new BacktrackingBST.Node(0, null);
+        BacktrackingBST.Node keyOne = new BacktrackingBST.Node(1, null);
+        tree.insert(keyThree);
+        tree.insert(keySix);
+        tree.insert(keyTwo);
+        tree.insert(keyFive);
+        tree.insert(keyFour);
+        tree.insert(keyEight);
+        tree.insert(keyNine);
+        tree.insert(keySeven);
+        tree.insert(keyZero);
+        tree.insert(keyOne);
+        /* might need to update this, waiting for an answer on the forums about what to do with empty undo\redo stacks
+        boolean cantBacktrack = true;
+        try {
+            // tree2.backtrack();
+            // cantBacktrack = false;
+        } catch (Exception e) {
+            passed = false;
+            System.out.println("Caught exception trying to backtrack an empty tree. expected: no exception. got: " + e.getMessage());
+        }
+         if (!cantBacktrack) {
+                passed = false;
+                System.out.println("Didn't throw exception for empty undo stack");
+        }
+        */
+        // testing backtrack of insert method
+        tree2.insert(new BacktrackingBST.Node(3, null));
+        tree2.insert(new BacktrackingBST.Node(6, null));
+        tree2.insert(new BacktrackingBST.Node(2, null));
+        tree2.insert(new BacktrackingBST.Node(5, null));
+        tree2.insert(new BacktrackingBST.Node(4, null));
+        tree2.insert(new BacktrackingBST.Node(8, null));
+        tree2.insert(new BacktrackingBST.Node(9, null));
+        tree2.insert(new BacktrackingBST.Node(7, null));
+        tree2.insert(new BacktrackingBST.Node(0, null));
+        tree2.insert(new BacktrackingBST.Node(1, null));
+        isEquals(tree2,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9");
+        tree2.backtrack();
+        if(!isEquals(tree2,"3 2 0 6 5 4 8 7 9","0 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("problem with backtracking: insert(1)");
+        }
+        tree2.backtrack();
+        tree2.backtrack();
+        tree2.backtrack();
+        tree2.backtrack();
+        tree2.backtrack();
+        tree2.backtrack();
+        if(!isEquals(tree2,"3 2 6","2 3 6")){
+            passed = false;
+            System.out.println("problem with backtracking 6 times in a row, backtracking insertion of 0, 7, 9, 8, 4, 5");
+        }
+        //testing backtrack of delete method
+        isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9");
+        tree.delete(keyOne); // delete case 1
+        if(!isEquals(tree,"3 2 0 6 5 4 8 7 9","0 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("problem with deleting 1");
+        }
+        tree.backtrack();
+        if (!isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("problem with backtracking: delete(1)");
+        }
+        tree.delete(keyZero); // delete case 2
+        if(!isEquals(tree,"3 2 1 6 5 4 8 7 9","1 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("problem with deleting 0");
+        }
+        tree.backtrack();
+        if (!isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("problem with backtracking: delete(0)");
+        }
+        tree.delete(keyThree); // delete case 3 with deletion of root
+        if(!isEquals(tree,"4 2 0 1 6 5 8 7 9","0 1 2 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("problem with deleting 3 (root)");
+        }
+        tree.backtrack();
+        if (!isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("problem with backtracking: delete(3)");
+        }
+        tree.delete(keyZero);
+        tree.delete(keyFive);
+        tree.delete(keySeven);
+        tree.delete(keyThree);
+        tree.delete(keyFour);
+        tree.delete(keyEight);
+        if (!isEquals(tree,"6 2 1 9","1 2 6 9")){
+            passed = false;
+            System.out.println("problem with multiple deletes: 0, 5, 7, 3, 4, 8");
+        }
+        for (int i = 0; i < 6; i++) tree.backtrack();
+        if (!isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("problem with backtracking multiple deletes: 0, 5, 7, 3, 4, 8");
+        }
+        if (passed) System.out.println("passed all tests");
     }
-    public static void test_BST_Retrack(){
 
+    public static void test_BST_Retrack(){
+        boolean passed = true;
+        BacktrackingBST tree = new BacktrackingBST(new Stack(), new Stack());
+        BacktrackingBST tree2 = new BacktrackingBST(new Stack(), new Stack());
+        BacktrackingBST.Node keyThree = new BacktrackingBST.Node(3, null);
+        BacktrackingBST.Node keySix = new BacktrackingBST.Node(6, null);
+        BacktrackingBST.Node keyTwo = new BacktrackingBST.Node(2, null);
+        BacktrackingBST.Node keyFive = new BacktrackingBST.Node(5, null);
+        BacktrackingBST.Node keyFour = new BacktrackingBST.Node(4, null);
+        BacktrackingBST.Node keyEight = new BacktrackingBST.Node(8, null);
+        BacktrackingBST.Node keyNine = new BacktrackingBST.Node(9, null);
+        BacktrackingBST.Node keySeven = new BacktrackingBST.Node(7, null);
+        BacktrackingBST.Node keyZero = new BacktrackingBST.Node(0, null);
+        BacktrackingBST.Node keyOne = new BacktrackingBST.Node(1, null);
+        tree.insert(keyThree);
+        tree.insert(keySix);
+        tree.insert(keyTwo);
+        tree.insert(keyFive);
+        tree.insert(keyFour);
+        tree.insert(keyEight);
+        tree.insert(keyNine);
+        tree.insert(keySeven);
+        tree.insert(keyZero);
+        tree.insert(keyOne);
+        /* might need to update this, waiting for an answer on the forums about what to do with empty undo\redo stacks
+        boolean cantRetrack = true;
+        try {
+            // tree2.retrack();
+            // cantRetrack = false;
+        } catch (Exception e) {
+            passed = false;
+            System.out.println("Caught exception trying to retrack without backtracked actions. expected: no exception. got: " + e.getMessage());
+        }
+         if (!cantBacktrack) {
+                passed = false;
+                System.out.println("Didn't throw exception for empty redo stack");
+        }
+        */
+        // testing retracking of backtracking of insert method
+        tree2.insert(new BacktrackingBST.Node(3, null));
+        tree2.insert(new BacktrackingBST.Node(6, null));
+        tree2.insert(new BacktrackingBST.Node(2, null));
+        tree2.insert(new BacktrackingBST.Node(5, null));
+        tree2.insert(new BacktrackingBST.Node(4, null));
+        tree2.insert(new BacktrackingBST.Node(8, null));
+        tree2.insert(new BacktrackingBST.Node(9, null));
+        tree2.insert(new BacktrackingBST.Node(7, null));
+        tree2.insert(new BacktrackingBST.Node(0, null));
+        tree2.insert(new BacktrackingBST.Node(1, null));
+        isEquals(tree2,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9");
+        tree2.backtrack();
+        if(!isEquals(tree2,"3 2 0 6 5 4 8 7 9","0 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("problem with backtracking: insert(1)");
+        }
+        tree2.backtrack();
+        tree2.backtrack();
+        tree2.backtrack();
+        tree2.backtrack();
+        tree2.backtrack();
+        tree2.backtrack();
+        if(!isEquals(tree2,"3 2 6","2 3 6")){
+            passed = false;
+            System.out.println("problem with backtracking 6 times in a row, backtracking insertion of 0, 7, 9, 8, 4, 5");
+        }
+        tree2.retrack();
+        if(!isEquals(tree2,"3 2 6 5","2 3 5 6")){
+            passed = false;
+            System.out.println("problem with retracking insert(5).");
+        }
+        for (int i = 0; i < 6; i++) tree2.retrack();
+        if (!isEquals(tree2,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9")) {
+            passed = false;
+            System.out.println("problem with retracking all actions to go back to original state");
+        }
+        tree2.backtrack();
+        tree2.backtrack();
+        tree2.backtrack();
+        tree2.retrack();
+        tree2.backtrack();
+        tree2.backtrack();
+        tree2.backtrack();
+        tree2.backtrack();
+        tree2.retrack();
+        tree2.retrack();
+        tree2.retrack();
+        tree2.retrack();
+        tree2.retrack();
+        tree2.retrack();
+        if (!isEquals(tree2,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9")) {
+            passed = false;
+            System.out.println("problem with moving actions between backtrack and retrack stacks in a backtrack-retrack loop");
+        }
+        tree2.backtrack();
+        tree2.backtrack();
+        // testing emptying of redo stack because of an insert\delete call. might need to change that to not look for exception but for changes in the tree
+        tree2.insert(new BacktrackingBST.Node(4334, null));
+        /* boolean didRetrack = false;
+        try {
+            tree2.retrack();
+            didRetrack = true;
+        } catch (Exception e) {
+            passed = false;
+            System.out.println("Caught exception trying to backtrack an empty tree. expected: no exception. got: " + e.getMessage());
+        }
+        if (!didRetrack) {
+            passed = false;
+            System.out.println("Didn't throw exception for empty undo stack");
+        }
+        if (didRetrack) {
+            passed = false;
+            System.out.println("failed in retrack. Didn't catch exception trying to retrack an empty action stack");
+            }
+         */
+        //testing retrack of delete method
+        isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9");
+        tree.delete(keyOne); // delete case 1
+        if(!isEquals(tree,"3 2 0 6 5 4 8 7 9","0 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("problem with deleting 1");
+        }
+        tree.backtrack();
+        if (!isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("problem with backtracking: delete(1)");
+        }
+        tree.retrack();
+        if(!isEquals(tree,"3 2 0 6 5 4 8 7 9","0 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("failed in retrack: problem with retracking delete(1)");
+        }
+        tree.backtrack(); // return tree to full state
+        tree.delete(keyZero); // delete case 2
+        if(!isEquals(tree,"3 2 1 6 5 4 8 7 9","1 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("problem with deleting 0");
+        }
+        tree.backtrack();
+        if (!isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("problem with backtracking: delete(0)");
+        }
+        tree.retrack();
+        if(!isEquals(tree,"3 2 1 6 5 4 8 7 9","1 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("failed in retrack: problem with retracking delete(0)");
+        }
+        tree.backtrack(); // return tree to full state
+        tree.delete(keyThree); // delete case 3 with deletion of root
+        if(!isEquals(tree,"4 2 0 1 6 5 8 7 9","0 1 2 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("problem with deleting 3 (root)");
+        }
+        tree.backtrack();
+        if (!isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("problem with backtracking: delete(3)");
+        }
+        tree.retrack();
+        if(!isEquals(tree,"4 2 0 1 6 5 8 7 9","0 1 2 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("failed in retrack: problem with retracking delete(3)");
+        }
+        tree.backtrack(); // return tree to full state
+        tree.delete(keyZero);
+        tree.delete(keyFive);
+        tree.delete(keySeven);
+        tree.delete(keyThree);
+        tree.delete(keyFour);
+        tree.delete(keyEight);
+        if (!isEquals(tree,"6 2 1 9","1 2 6 9")){
+            passed = false;
+            System.out.println("problem with multiple deletes: 0, 5, 7, 3, 4, 8");
+        }
+        for (int i = 0; i < 6; i++) tree.backtrack();
+        if (!isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("problem with backtracking multiple deletes: 0, 5, 7, 3, 4, 8");
+        }
+        tree.retrack();
+        tree.retrack();
+        tree.retrack();
+        tree.retrack();
+        tree.retrack();
+        tree.retrack();
+        if(!isEquals(tree,"6 2 1 9","1 2 6 9")){
+            passed = false;
+            System.out.println("failed in retrack: problem with retracking multiple delete actions in a row");
+        }
+        for (int i = 0; i < 6; i++) tree.backtrack(); // return tree to full state
+        tree.backtrack();
+        tree.backtrack();
+        tree.backtrack();
+        tree.retrack();
+        tree.backtrack();
+        tree.backtrack();
+        tree.backtrack();
+        tree.backtrack();
+        tree.retrack();
+        tree.retrack();
+        tree.retrack();
+        tree.retrack();
+        tree.retrack();
+        tree.retrack();
+        if(!isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9")){
+            passed = false;
+            System.out.println("failed in retrack: problem with moving actions from redo stack to undo stack during a backtrack/retrack cycle");
+        }
+        tree.delete(keyFour);
+        // testing emptying of redo stack because of an insert\delete call. might need to change that to not look for exception but for changes in the tree
+        /* boolean didRetrack = false;
+        try {
+            tree2.retrack();
+            didRetrack = true;
+        } catch (Exception e) {
+            passed = false;
+            System.out.println("Caught exception trying to backtrack an empty tree. expected: no exception. got: " + e.getMessage());
+        }
+        if (!didRetrack) {
+            passed = false;
+            System.out.println("Didn't throw exception for empty undo stack");
+        }
+        if (didRetrack) {
+            passed = false;
+            System.out.println("failed in retrack. Didn't catch exception trying to retrack an empty action stack");
+            }
+         */
+        if (passed) System.out.println("passed all tests");
     }
 
 
