@@ -37,7 +37,15 @@ public class tests {
         run_SortedArray_Tests();
         run_BST_Tests();
     }
-    public static void run_Array_Tests(){
+public static void run_Array_Tests(){
+        Scanner reader = new Scanner(System.in);
+        int choice = 3;
+        while (choice != 1 && choice != 0) {
+            System.out.println("Please insert 1 or 0 for time complexity of your unsorted array delete.\n" +
+                    "type in '1' if you swapped the deleted key with the key in the last index or '0'\n" +
+                    "if you're shifting the entire array while deleting");
+            choice = reader.nextInt();
+        }
         System.out.println("running array tests");
         System.out.println("insert");
         test_Array_Insert();
@@ -54,7 +62,8 @@ public class tests {
         System.out.println("predecessor");
         test_Array_Predecessor();
         System.out.println("backtrack");
-        test_Array_Backtrack();
+        if (choice == 1) test_Array_Backtrack2();
+        else test_Array_Backtrack();
     }
     public static void run_SortedArray_Tests(){
         System.out.println("running sorted array tests");
@@ -376,6 +385,59 @@ public class tests {
                         if(!isArrayEquals(b[i],d[i],sizes[i])) {
                             passed = false;
                             System.out.print("failed in backtrack(Insert), expected: " + Arrays.toString(d[i]) + " actual: ");
+                            b[i].print();
+                            System.out.println();
+                        }
+                    }
+                }
+                catch (Exception e) {
+                    passed = false;
+                    if(inputs[i][j] == 1) {
+                        System.out.println("failed on delete, expected: no exception, " + "actual: " + e.getMessage());
+                    }
+                    else{
+                        System.out.println("failed on insert, expected: no exception, " + "actual: " + e.getMessage());
+                    }
+                }
+            }
+        }
+        if (passed) System.out.println("passed all tests");
+    }
+    // Duplication in order to test for people who did BacktrackingArray in theta(1)
+    public static void test_Array_Backtrack2(){
+        boolean passed = true;
+        BacktrackingArray array1 = new BacktrackingArray(new Stack(), 17);
+        BacktrackingArray array2 = new BacktrackingArray(new Stack(), 3);
+        BacktrackingArray array3 = new BacktrackingArray(new Stack(), 0);
+        BacktrackingArray[] b = {array1, array2, array3};
+        int[] arr1 = {3, 5, 1, 8, 23,6};
+        int[] arr2 = {3, 4, 2};
+        int[] arr3 = {};
+        int[][] d = {arr1, arr2, arr3};
+        int[][] outputs = {{3, 6, 1, 8, 23, 5}, {3, 2, 4}, {}};
+        int size1 = 6, size2 = 3, size3 = 0;
+        int[][] inputs = {{1,0}, {1}, {}};
+        int[] sizes = {size1, size2, size3};
+        for (int i = 0; i < b.length; i++) {
+            InsertToArray(b[i], d[i], sizes[i]);
+            for (int j = 0; j < inputs[i].length; j++) {
+                try {
+                    if(inputs[i][j] == 1) {
+                        b[i].delete(inputs[i][j]);
+                        b[i].backtrack();
+                        if(!isArrayEquals(b[i],outputs[i],sizes[i])){
+                            passed = false;
+                            System.out.print("failed in backtrack(Delete), expected: " + Arrays.toString(outputs[i]) + " actual: ");
+                            b[i].print();
+                            System.out.println();
+                        }
+                    }
+                    else{
+                        b[i].insert(inputs[i][j]);
+                        b[i].backtrack();
+                        if(!isArrayEquals(b[i],outputs[i],sizes[i])) {
+                            passed = false;
+                            System.out.print("failed in backtrack(Insert), expected: " + Arrays.toString(outputs[i]) + " actual: ");
                             b[i].print();
                             System.out.println();
                         }
