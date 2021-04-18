@@ -7,6 +7,7 @@ public class tests {
 
     private static final Stack wrongPointers= new Stack(); // So far only used to test for wrong parent pointers
     public static void main(String[] args) {
+        //test_Backtracking_Search();
         //test_Array_Insert();
         //test_Array_Search();
         //test_Array_Delete();
@@ -26,13 +27,16 @@ public class tests {
         //test_BST_Insert();
         //test_BST_Search();
         //test_BST_Delete();
-        run_All_Tests();
+        //run_All_Tests();
         //run_Array_Tests();
         //run_SortedArray_Tests();
         //run_BST_Tests();
         //testBST();
     }
     public static void run_All_Tests(){
+        System.out.println("running warmup tests");
+        test_Backtracking_Search();
+        System.out.println();
         run_Array_Tests();
         System.out.println();
         run_SortedArray_Tests();
@@ -99,6 +103,17 @@ public class tests {
         test_BST_Retrack();
         System.out.println("all");
         test_BST_All();
+    }
+
+    public static void test_Backtracking_Search(){
+        int[] arr = {3,2,8,1,0,4,6,55,32,6,20};
+        int a = Warmup.backtrackingSearch(arr,6,3,2,new Stack());
+        if(a == 6){
+            System.out.println("passed all tests");
+        }
+        else{
+            System.out.println("problem with backtracking search, expected: " + 6 + " actual: " + a);
+        }
     }
     public static void test_Array_Insert(){
         boolean passed = true;
