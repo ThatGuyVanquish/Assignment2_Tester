@@ -34,7 +34,9 @@ public class tests {
     }
     public static void run_All_Tests(){
         run_Array_Tests();
+        System.out.println();
         run_SortedArray_Tests();
+        System.out.println();
         run_BST_Tests();
     }
     public static void run_Array_Tests(){
@@ -76,15 +78,27 @@ public class tests {
         test_SortedArray_Backtrack();
     }
     public static void run_BST_Tests(){
+        System.out.println("running BST tests");
+        System.out.println("insert");
         test_BST_Insert();
+        System.out.println("search");
         test_BST_Search();
+        System.out.println("delete");
         test_BST_Delete();
+        System.out.println("minimum");
         test_SortedArray_Minimum();
+        System.out.println("maximum");
         test_SortedArray_Maximum();
+        System.out.println("successor");
         test_SortedArray_Successor();
+        System.out.println("predecessor");
         test_SortedArray_Predecessor();
+        System.out.println("backtrack");
         test_Array_Backtrack();
+        System.out.println("retrack");
         test_BST_Retrack();
+        System.out.println("all");
+        test_BST_All();
     }
     public static void test_Array_Insert(){
         boolean passed = true;
@@ -167,34 +181,32 @@ public class tests {
         int[] arr3 = {};
         int[][] d = {arr1, arr2, arr3};
         int size1 = 6, size2 = 3, size3 = 0;
-        int[][] inputs = {{5, 4, -1, 34}, {2, 6, 4}, {0}};
-        int[] out1 = {3, 5, 1, 8, 23};
-        int[] out2 = {3, 5, 1, 8};
-        int[] out3 = {3, 4};
-        Object[][] outputs = {{out1, out2,-1, -1}, {out3, -1, -1}, {-1}};
+        int[][] inputs = {{5, 3, -1, 34}, {2, 6, 4}, {0}};
+        int[][] outs = {{6,8},{2},{}};
+        int[][] outputs = {{-1, -1,0, 0}, {-1, 0, 0}, {0}};
         int[] sizes = {size1, size2, size3};
         for (int i = 0; i < b.length; i++) {
             InsertToArray(b[i], d[i], sizes[i]);
             for (int j = 0; j < inputs[i].length; j++) {
                 try {
                     b[i].delete(inputs[i][j]);
-                    if(outputs[i][j].toString().equals("-1")){
+                    if(outputs[i][j] == 0){
                         passed = false;
                         System.out.print("failed on delete, expected to throw an exception, actual: ");
                         b[i].print();
                         System.out.println();
                     }
-                    else if(!isArrayEquals(b[i],(int[])outputs[i][j],--sizes[i])){
+                    else if(b[i].search(outs[i][j]) != outputs[i][j] ){
                         passed = false;
-                        System.out.print("failed on delete, expected: " + Arrays.toString((int[])outputs[i][j]) + " actual: ");
+                        System.out.print("failed on delete, expected to delete index: " + inputs[i][j] + " actual: ");
                         b[i].print();
                         System.out.println();
                     }
                 }
                 catch (Exception e) {
-                    if (-1 != (int) outputs[i][j]) {
+                    if (0 != outputs[i][j]) {
                         passed = false;
-                        System.out.println("failed on delete, expected: " + Arrays.toString((int[])outputs[i][j]) + " actual: " + e.getMessage());
+                        System.out.println("failed on delete, expected to delete: " + inputs[i][j] + " actual: " + e.getMessage());
                     }
                 }
             }
@@ -694,6 +706,9 @@ public class tests {
         tree.insert(new BacktrackingBST.Node(1, null));
         if (!isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9"))
             System.out.println("Bad insertion, wrong population of nodes in BST");
+        else {
+            System.out.println("passed all tests");
+        }
     }
     public static void test_BST_Search(){
         BacktrackingBST tree = new BacktrackingBST(new Stack(), new Stack());
@@ -1504,7 +1519,7 @@ public class tests {
     }
 
 
-    public static void testBST(){
+    public static void test_BST_All(){
         BacktrackingBST tree = new BacktrackingBST(new Stack(), new Stack());
         BacktrackingBST.Node keyThree = new BacktrackingBST.Node(3, null);
         BacktrackingBST.Node keySix = new BacktrackingBST.Node(6, null);
@@ -1526,160 +1541,159 @@ public class tests {
         tree.insert(keySeven);
         tree.insert(keyZero);
         tree.insert(keyOne);
-
-        isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9");
-        kavim();
+        boolean passed = true;
+        if (!isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9")){
+            System.out.println("problem with insertion");
+            passed = false;
+        }
         tree.backtrack();
         if(!isEquals(tree,"3 2 0 6 5 4 8 7 9","0 2 3 4 5 6 7 8 9")){
             System.out.println("problem with backtracking: insert(1)");
+            passed = false;
         }
-        kavim();
         tree.backtrack();
-        if(!isEquals(tree,"3 2 6 5 4 8 7 9","2 3 4 5 6 7 8 9")){
+        if(!isEquals(tree,"3 2 6 5 4 8 7 9","2 3 4 5 6 7 8 9")) {
             System.out.println("problem with backtracking: insert(0)");
+            passed = false;
         }
-        kavim();
         tree.retrack();
         if(!isEquals(tree,"3 2 0 6 5 4 8 7 9","0 2 3 4 5 6 7 8 9")){
             System.out.println("problem with retracking: insert(0)");
+            passed = false;
         }
-        kavim();
         tree.delete(tree.search(8));
         if(!isEquals(tree,"3 2 0 6 5 4 9 7","0 2 3 4 5 6 7 9")){
             System.out.println("problem with deleting: delete(8)");
+            passed = false;
         }
-        kavim();
         tree.backtrack();
         if(!isEquals(tree,"3 2 0 6 5 4 8 7 9","0 2 3 4 5 6 7 8 9")){
             System.out.println("problem with backtracking: delete(8)");
+            passed = false;
         }
-        kavim();
         tree.retrack();
         if(!isEquals(tree,"3 2 0 6 5 4 9 7","0 2 3 4 5 6 7 9")){
             System.out.println("problem with retracking: delete(8)");
+            passed = false;
         }
-        kavim();
         tree.backtrack();
         if(!isEquals(tree,"3 2 0 6 5 4 8 7 9","0 2 3 4 5 6 7 8 9")){
             System.out.println("problem with backtracking: delete(8)");
+            passed = false;
         }
-        kavim();
         tree.delete(tree.search(3));
         if(!isEquals(tree,"4 2 0 6 5 8 7 9","0 2 4 5 6 7 8 9")){
             System.out.println("problem with deleting: delete(3)");
+            passed = false;
         }
-        kavim();
         tree.backtrack();
         if(!isEquals(tree,"3 2 0 6 5 4 8 7 9","0 2 3 4 5 6 7 8 9")){
             System.out.println("problem with backtracking: delete(3)");
+            passed = false;
         }
-        kavim();
         tree.backtrack();
         if(!isEquals(tree,"3 2 6 5 4 8 7 9","2 3 4 5 6 7 8 9")){
             System.out.println("problem with backtracking: insert(0)");
+            passed = false;
         }
-        kavim();
         tree.backtrack();
         if(!isEquals(tree,"3 2 6 5 4 8 9","2 3 4 5 6 8 9")){
             System.out.println("problem with backtracking: insert(7)");
+            passed = false;
         }
-        kavim();
         tree.delete(tree.search(5));
-        if(!isEquals(tree,"3 2 6 4 8 9","2 3 4 6 8 9")){
+        if(!isEquals(tree,"3 2 6 4 8 9","2 3 4 6 8 9")) {
             System.out.println("problem with deleting: delete(5)");
+            passed = false;
         }
-        kavim();
         tree.backtrack();
         if(!isEquals(tree,"3 2 6 5 4 8 9","2 3 4 5 6 8 9")){
             System.out.println("problem with backtracking: delete(5)");
+            passed = false;
         }
-        kavim();
         tree.retrack();
         if(!isEquals(tree,"3 2 6 4 8 9","2 3 4 6 8 9")){
             System.out.println("problem with retracking: delete(5)");
+            passed = false;
         }
-        kavim();
         tree.delete(tree.search(6));
         if(!isEquals(tree,"3 2 8 4 9","2 3 4 8 9")){
             System.out.println("problem with deleting: delete(6)");
+            passed = false;
         }
-        kavim();
         tree.delete(tree.search(8));
         if(!isEquals(tree,"3 2 9 4","2 3 4 9")){
             System.out.println("problem with deleting: delete(8)");
+            passed = false;
         }
-        kavim();
         tree.delete(tree.search(9));
         if(!isEquals(tree,"3 2 4","2 3 4")){
             System.out.println("problem with deleting: delete(9)");
+            passed = false;
         }
-        kavim();
         tree.backtrack();
         if(!isEquals(tree,"3 2 9 4","2 3 4 9")){
             System.out.println("problem with backtracking: delete(9)");
+            passed = false;
         }
-        kavim();
         tree.backtrack();
         if(!isEquals(tree,"3 2 8 4 9","2 3 4 8 9")){
             System.out.println("problem with backtracking: delete(8)");
+            passed = false;
         }
-        kavim();
         tree.backtrack();
         if(!isEquals(tree,"3 2 6 4 8 9","2 3 4 6 8 9")){
             System.out.println("problem with backtracking: delete(6)");
+            passed = false;
         }
-        kavim();
         tree.retrack();
-        if(!isEquals(tree,"3 2 8 4 9","2 3 4 8 9")){
+        if(!isEquals(tree,"3 2 8 4 9","2 3 4 8 9")) {
             System.out.println("problem with retracking: delete(6)");
+            passed = false;
         }
-        kavim();
         tree.retrack();
         if(!isEquals(tree,"3 2 9 4","2 3 4 9")){
             System.out.println("problem with retracking: delete(8)");
+            passed = false;
         }
-        kavim();
         tree.retrack();
-        if(!isEquals(tree,"3 2 4","2 3 4")){
+        if(!isEquals(tree,"3 2 4","2 3 4")) {
             System.out.println("problem with retracking: delete(9)");
+            passed = false;
         }
-        kavim();
         tree.backtrack();
         if(!isEquals(tree,"3 2 9 4","2 3 4 9")){
             System.out.println("problem with backtracking: delete(9)");
+            passed = false;
         }
-        kavim();
         tree.backtrack();
         if(!isEquals(tree,"3 2 8 4 9","2 3 4 8 9")){
             System.out.println("problem with backtracking: delete(8)");
+            passed = false;
         }
-        kavim();
         tree.retrack();
         if(!isEquals(tree,"3 2 9 4","2 3 4 9")){
             System.out.println("problem with retracking: delete(8)");
+            passed = false;
         }
-        kavim();
         tree.retrack();
         if(!isEquals(tree,"3 2 4","2 3 4")){
             System.out.println("problem with retracking: delete(9)");
+            passed = false;
         }
-        kavim();
         tree.backtrack();
         if(!isEquals(tree,"3 2 9 4","2 3 4 9")){
             System.out.println("problem with backtracking: delete(9)");
+            passed = false;
         }
-        kavim();
         tree.backtrack();
         if(!isEquals(tree,"3 2 8 4 9","2 3 4 8 9")){
             System.out.println("problem with backtracking: delete(8)");
+            passed = false;
         }
-        kavim();
         correctParent(tree.getRoot());
-        kavim();
+        if(passed) System.out.println("passed all tests");
 
-    }
-    public static void kavim(){
-        System.out.println("-----------------------------------------------");
     }
     public static boolean isEquals(BacktrackingBST b,String p,String i){// get tree and it supposed PreOrder and InOrder scans, return true if it fits
         if(!PreOrder(b.getRoot()).strip().equals(p)){
@@ -1689,9 +1703,6 @@ public class tests {
         if(!InOrder(b.getRoot()).strip().equals(i)){
             System.out.println("problem with InOrder tree");
             System.out.println(InOrder(b.getRoot()).strip());
-        }
-        else if(PreOrder(b.getRoot()).strip().equals(p)){
-            System.out.println("passed");
         }
         return PreOrder(b.getRoot()).strip().equals(p) && InOrder(b.getRoot()).strip().equals(i);
     }
@@ -1717,8 +1728,7 @@ public class tests {
     private static void correctParent(BacktrackingBST.Node root) {
         if (root.left != null) correctParent(root.left, root);
         if (root.right != null) correctParent(root.right, root);
-        if (wrongPointers.isEmpty()) System.out.println("passed");
-        else {
+        if (!wrongPointers.isEmpty()) {
             while (!wrongPointers.isEmpty())
                 System.out.println(wrongPointers.pop());
         }
@@ -1726,7 +1736,6 @@ public class tests {
     private static void correctParent(BacktrackingBST.Node node,BacktrackingBST.Node nodesParent) {
         if (node.getParent() != null && node.getParent() != nodesParent) {
             wrongPointers.push("Node " + node.getKey() + "'s parent is not " + nodesParent.getKey());
-            kavim();
         }
         if (node.left != null) correctParent(node.left, node);
         if (node.right != null) correctParent(node.right, node);
