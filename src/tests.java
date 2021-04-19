@@ -34,7 +34,7 @@ public class tests {
         //test_SortedArray_Backtrack();
         //est_BST_Retrack();
         //test_BST_All();
-        //run_All_Tests();
+        run_All_Tests();
         //run_Array_Tests();
         //run_SortedArray_Tests();
         //run_BST_Tests();
@@ -1209,6 +1209,12 @@ public class tests {
         BacktrackingBST.Node keySeven = new BacktrackingBST.Node(7, null);
         BacktrackingBST.Node keyZero = new BacktrackingBST.Node(0, null);
         BacktrackingBST.Node keyOne = new BacktrackingBST.Node(1, null);
+/*        try { // testing calling backtrack on empty stack
+            tree2.backtrack();
+        } catch (Exception e) {
+            passed = false;
+            System.out.println("Caught exception trying to backtrack an empty stack. expected: no exception. got: " + e.getMessage());
+        }*/
         tree.insert(keyThree);
         tree.insert(keySix);
         tree.insert(keyTwo);
@@ -1219,20 +1225,7 @@ public class tests {
         tree.insert(keySeven);
         tree.insert(keyZero);
         tree.insert(keyOne);
-        /* might need to update this, waiting for an answer on the forums about what to do with empty undo\redo stacks
-        boolean cantBacktrack = true;
-        try {
-            // tree2.backtrack();
-            // cantBacktrack = false;
-        } catch (Exception e) {
-            passed = false;
-            System.out.println("Caught exception trying to backtrack an empty tree. expected: no exception. got: " + e.getMessage());
-        }
-         if (!cantBacktrack) {
-                passed = false;
-                System.out.println("Didn't throw exception for empty undo stack");
-        }
-        */
+
         // testing backtrack of insert method
         tree2.insert(new BacktrackingBST.Node(3, null));
         tree2.insert(new BacktrackingBST.Node(6, null));
@@ -1324,6 +1317,13 @@ public class tests {
         BacktrackingBST.Node keySeven = new BacktrackingBST.Node(7, null);
         BacktrackingBST.Node keyZero = new BacktrackingBST.Node(0, null);
         BacktrackingBST.Node keyOne = new BacktrackingBST.Node(1, null);
+/*        try {
+            tree.backtrack();
+        }
+        catch (Exception e) {
+            passed = false;
+            System.out.println("Caught exception trying to backtrack an empty stack. expected: no exception. got: " + e.getMessage());
+        }*/
         tree.insert(keyThree);
         tree.insert(keySix);
         tree.insert(keyTwo);
@@ -1334,20 +1334,7 @@ public class tests {
         tree.insert(keySeven);
         tree.insert(keyZero);
         tree.insert(keyOne);
-        /* might need to update this, waiting for an answer on the forums about what to do with empty undo\redo stacks
-        boolean cantRetrack = true;
-        try {
-            // tree2.retrack();
-            // cantRetrack = false;
-        } catch (Exception e) {
-            passed = false;
-            System.out.println("Caught exception trying to retrack without backtracked actions. expected: no exception. got: " + e.getMessage());
-        }
-         if (!cantBacktrack) {
-                passed = false;
-                System.out.println("Didn't throw exception for empty redo stack");
-        }
-        */
+
         // testing retracking of backtracking of insert method
         tree2.insert(new BacktrackingBST.Node(3, null));
         tree2.insert(new BacktrackingBST.Node(6, null));
@@ -1407,23 +1394,13 @@ public class tests {
         tree2.backtrack();
         // testing emptying of redo stack because of an insert\delete call. might need to change that to not look for exception but for changes in the tree
         tree2.insert(new BacktrackingBST.Node(4334, null));
-        /* boolean didRetrack = false;
         try {
             tree2.retrack();
-            didRetrack = true;
         } catch (Exception e) {
             passed = false;
-            System.out.println("Caught exception trying to backtrack an empty tree. expected: no exception. got: " + e.getMessage());
+            System.out.println("Caught exception trying to backtrack an empty stack. expected: no exception. got: " + e.getMessage());
         }
-        if (!didRetrack) {
-            passed = false;
-            System.out.println("Didn't throw exception for empty undo stack");
-        }
-        if (didRetrack) {
-            passed = false;
-            System.out.println("failed in retrack. Didn't catch exception trying to retrack an empty action stack");
-            }
-         */
+
         //testing retrack of delete method
         isEquals(tree,"3 2 0 1 6 5 4 8 7 9","0 1 2 3 4 5 6 7 8 9");
         tree.delete(keyOne); // delete case 1
@@ -1520,23 +1497,13 @@ public class tests {
         }
         tree.delete(keyFour);
         // testing emptying of redo stack because of an insert\delete call. might need to change that to not look for exception but for changes in the tree
-        /* boolean didRetrack = false;
         try {
-            tree2.retrack();
-            didRetrack = true;
+            tree.retrack();
+            tree.backtrack();
         } catch (Exception e) {
             passed = false;
-            System.out.println("Caught exception trying to backtrack an empty tree. expected: no exception. got: " + e.getMessage());
+            System.out.println("Caught exception trying to backtrack an empty stack. expected: no exception. got: " + e.getMessage());
         }
-        if (!didRetrack) {
-            passed = false;
-            System.out.println("Didn't throw exception for empty undo stack");
-        }
-        if (didRetrack) {
-            passed = false;
-            System.out.println("failed in retrack. Didn't catch exception trying to retrack an empty action stack");
-            }
-         */
         if (passed) System.out.println("passed all tests");
     }
 
