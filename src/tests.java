@@ -34,7 +34,7 @@ public class tests {
         //test_SortedArray_Backtrack();
         //est_BST_Retrack();
         //test_BST_All();
-        //run_All_Tests();
+        run_All_Tests();
         //run_Array_Tests();
         //run_SortedArray_Tests();
         //run_BST_Tests();
@@ -1048,29 +1048,6 @@ public class tests {
             passed = false;
             System.out.println("issue with deleting nodes");
         }
-        boolean noSuccessor = false;
-        try { // getting exception for no successor for a node which is IN the tree
-            BacktrackingBST.Node shouldThrow = tree.successor(keyZero);
-            noSuccessor = false;
-        }
-        catch (Exception e) {
-            noSuccessor = true;
-        }
-        if (!noSuccessor) {
-            passed = false;
-            System.out.println("Failed to throw exception for no successor in the tree for a node which exists in the tree");
-        }
-        try { // getting successor for a node which is not in the tree
-            BacktrackingBST.Node shouldThrow = tree.successor(new BacktrackingBST.Node(132123, null));
-            noSuccessor = false;
-        }
-        catch (Exception e) {
-            if (noSuccessor) noSuccessor = true;
-        }
-        if (!noSuccessor) {
-            passed = false;
-            System.out.println("Failed to throw exception for searching for a successor to a node which is not in the tree");
-        }
         if (passed) System.out.println("passed all tests");
     }
     public static void test_BST_Predecessor(){
@@ -1169,29 +1146,6 @@ public class tests {
         if(!isEquals(tree,"9","9")){
             passed = false;
             System.out.println("issue with deleting nodes");
-        }
-        boolean noPredecessor = false;
-        try { // getting exception for no successor for a node which is IN the tree
-            BacktrackingBST.Node shouldThrow = tree.predecessor(keyNine);
-            noPredecessor = false;
-        }
-        catch (Exception e) {
-            noPredecessor = true;
-        }
-        if (!noPredecessor) {
-            passed = false;
-            System.out.println("Failed to throw exception for no predecessor in the tree for a node which exists in the tree");
-        }
-        try { // getting successor for a node which is not in the tree
-            BacktrackingBST.Node shouldThrow = tree.predecessor(new BacktrackingBST.Node(132123, null));
-            noPredecessor = false;
-        }
-        catch (Exception e) {
-            if (noPredecessor) noPredecessor = true;
-        }
-        if (!noPredecessor) {
-            passed = false;
-            System.out.println("Failed to throw exception for searching for a predecessor to a node which is not in the tree");
         }
         if (passed) System.out.println("passed all tests");
     }
